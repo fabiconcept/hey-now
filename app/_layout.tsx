@@ -1,39 +1,70 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import SplashScreenComponent from '@/components/SplashScreen';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+// Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  const [appIsReady, setAppIsReady] = useState(false);
+  const [showCustomSplash, setShowCustomSplash] = useState(true);
+
+  // Load fonts
+  const [fontsLoaded] = useFonts({
+    Quicksand: require('../assets/fonts/Quicksand-VariableFont_wght.ttf'),
   });
 
+  // Prepare app resources
   useEffect(() => {
-    if (loaded) {
+    async function prepare() {
+      try {
+        // Prepare your app (load assets, other initialization)
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  // Handle native splash screen hiding
+  useEffect(() => {
+    if (fontsLoaded && appIsReady) {
+      // Hide the native splash screen when both fonts are loaded and app is ready
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded, appIsReady]);
 
-  if (!loaded) {
+  // Function to handle when the custom splash screen finishes
+  const handleSplashFinish = () => {
+    setShowCustomSplash(false);
+  };
+
+  // If resources aren't loaded yet, return null (native splash still showing)
+  if (!fontsLoaded || !appIsReady) {
     return null;
   }
 
+  // Show custom splash screen after native splash hides
+  if (showCustomSplash) {
+    return <SplashScreenComponent onFinish={handleSplashFinish} />;
+  }
+
+  // Show main app after custom splash finishes
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" options={{ headerShown: false }} />
       </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+      <StatusBar style='light' />
+    </GestureHandlerRootView>
   );
 }
