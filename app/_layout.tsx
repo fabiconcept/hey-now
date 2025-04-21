@@ -5,7 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import SplashScreenComponent from '@/components/SplashScreen';
-import "../global.css";
+import '../global.css';
 
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
