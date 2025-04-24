@@ -1,3 +1,5 @@
+import { PressableProps } from "react-native";
+
 export interface ButtonProps {
     title: string;
     action: () => void;
@@ -6,4 +8,11 @@ export interface ButtonProps {
     loading?: boolean;
     loadingText?: string;
     textClassname?: string;
+}
+
+export interface AnimatedPressableProps extends PressableProps {
+    children: React.ReactNode,
+    className?: string,
+    activeOpacity?: number,
+    containerClassName?: string
 }

@@ -1,6 +1,7 @@
 import { TouchableOpacity, View } from 'react-native';
 import CameraPlus from '@/assets/svgs/cameraPlus';
 import CrossedBones from '@/assets/svgs/crossedBones';
+import AnimatedPressable from '../Global/AnimatedPress';
 
 export default function ChoosePhoto() {
     return (
@@ -9,7 +10,9 @@ export default function ChoosePhoto() {
                 <CameraPlus />
             </View>
             <TouchableOpacity className='absolute -bottom-4 left-1/2 -translate-x-1/2'>
-                <CrossedBones />
+                <AnimatedPressable containerClassName='ml-1' activeOpacity={0.8}>
+                    <CrossedBones />
+                </AnimatedPressable>
             </TouchableOpacity>
         </View>
     )

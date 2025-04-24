@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 import { Image } from 'react-native';
-import BlinkingPaw from '@/components/BlinkingComponent';
+import BlinkingPaw from '@/components/Global/BlinkingComponent';
 import InputComponent from '@/components/Authentication/Input';
 import Button from '@/components/Authentication/Button';
 import { router } from 'expo-router';
