@@ -49,12 +49,12 @@ export default function createAccount() {
                 />
 
                 {/* Input and Button */}
-                <View className='p-5 gap-4 w-full h-[85%] absolute bottom-0'>
-                    <Text className='text-2xl max-w-[65%] mt-10 px-3'>
+                <View className='p-5 gap-4 w-full h-full absolute bottom-0'>
+                    <Text className='text-2xl max-w-[65%] mt-32 px-3'>
                     Choose your name, tell your story, and let the world hear your howl.
                     </Text>
 
-                    <View className='gap-4 flex-1'>
+                    <View className='gap-4'>
                         <Text className='text-center px-5 mt-12 text-gray-400'>Choose your moonlit form</Text>
                         <ChoosePhoto />
 
@@ -66,11 +66,11 @@ export default function createAccount() {
                             className='w-full px-5 py-5 h-40 border border-themeBlue bg-white rounded-lg' 
                             placeholder='Your true name echoes in the dark.' 
                             multiline
+                            numberOfLines={4}
                         />
                     </View>
                     <Button 
                         title="Howl into the Wild" 
-                        className='mb-10' 
                         action={() => {}}
                     />
                 </View>

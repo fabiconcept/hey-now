@@ -1,4 +1,4 @@
-import { Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { ButtonProps } from '@/types/button.types';
 import clsx from 'clsx';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -7,17 +7,18 @@ import { Pressable } from 'react-native';
 export default function Button(props: ButtonProps) {
     const pressed = useSharedValue(0);
     
+    // Main animation style
     const animatedStyles = useAnimatedStyle(() => {
         return {
             transform: [
                 { translateY: withTiming(pressed.value * 4, { duration: 100 }) }
             ],
             opacity: withTiming(pressed.value ? 0.9 : 1, { duration: 100 }),
-            // Animated shadow properties
-            shadowOffset: {
-                width: 0,
-                height: withTiming(pressed.value ? 0 : 4, { duration: 100 }),
-            },
+            // Shadow properties - not trying to animate the nested shadowOffset.height
+            // shadowOffset: {
+            //     width: 0,
+            //     height: pressed.value ? 0 : 4,
+            // },
             shadowOpacity: withTiming(pressed.value ? 0 : 1, { duration: 100 }),
             shadowRadius: 0,
             shadowColor: 'rgba(79,42,235,0.5)',
@@ -27,7 +28,7 @@ export default function Button(props: ButtonProps) {
 
     return (
         <Animated.View
-            style={[animatedStyles]}
+            style={[animatedStyles, styles.pressContainer]}
         >
             <Pressable 
                 onPressIn={() => {
@@ -51,3 +52,17 @@ export default function Button(props: ButtonProps) {
         </Animated.View>
     );
 }
+
+
+const styles = StyleSheet.create({
+    pressContainer: {
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 0,
+        shadowColor: 'rgba(79,42,235,0.5)',
+        elevation: 4,
+    }
+})
